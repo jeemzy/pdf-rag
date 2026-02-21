@@ -1,4 +1,3 @@
-import os
 from io import BytesIO
 from PyPDF2 import PdfReader
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -6,10 +5,34 @@ from langchain_experimental.text_splitter import SemanticChunker
 from langchain_classic.chains import create_retrieval_chain
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_community.vectorstores import Qdrant
+from langchain_core.documents import Document
+from langchain_core.retrievers import BaseRetriever
+from typing import List
 
 from core.config import settings
 from services.qdrant_service import qdrant_service
+
+
+class QdrantRetriever(BaseRetriever):
+    """A custom retriever that uses the new qdrant-client query_points API."""
+
+    collection_name: str
+    embeddings: OpenAIEmbeddings
+    k: int = 5
+
+    def _get_relevant_documents(self, query: str) -> List[Document]:
+        query_vector = self.embeddings.embed_query(query)
+        results = qdrant_service.client.query_points(
+            collection_name=self.collection_name,
+            query=query_vector,
+            limit=self.k,
+        )
+        docs = []
+        for point in results.points:
+            page_content = point.payload.get("page_content", "")
+            metadata = point.payload.get("metadata", {})
+            docs.append(Document(page_content=page_content, metadata=metadata))
+        return docs
 
 
 class RagService:
@@ -74,13 +97,11 @@ class RagService:
 
     def get_answer(self, collection_name: str, query: str):
         """Retrieve context from Qdrant and generate answer using LangChain."""
-        # Create Langchain Qdrant vector store wrapper
-        vectorstore = Qdrant(
-            client=qdrant_service.client,
+        retriever = QdrantRetriever(
             collection_name=collection_name,
             embeddings=self.embeddings,
+            k=5,
         )
-        retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
         system_prompt = (
             "You are an assistant for question-answering tasks. "
