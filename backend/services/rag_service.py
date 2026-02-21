@@ -3,8 +3,8 @@ from io import BytesIO
 from PyPDF2 import PdfReader
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_experimental.text_splitter import SemanticChunker
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_classic.chains import create_retrieval_chain
+from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.vectorstores import Qdrant
 
