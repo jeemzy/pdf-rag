@@ -1,0 +1,297 @@
+{
+  "name": "Dream Platform - RAG Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        880
+      ],
+      "id": "f17d2a28-859f-470f-9542-8cf7e84dc18c",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "fbTgi8bW8l3DFLur",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an intelligent company assistant specialized in answering employee and stakeholder questions about company policies, procedures, and internal guidelines.\n\nYour primary responsibility is to provide accurate, clear, and concise answers **strictly based on retrieved company documents** using the available tools.\n\n### TOOL\nUse the \"Company Documents Retrieve Tool\" to:\n- perform semantic search over official company documents\n- retrieve relevant policy sections, procedures, and guidelines needed to answer the user’s question\n\n### Key Instructions\n\n1. **Grounded Responses Only**\n   - Always rely on retrieved company documents when answering questions.\n   - Do NOT use assumptions, external knowledge, or general best practices unless explicitly supported by retrieved content.\n\n2. **Answer Construction**\n   - Synthesize the retrieved information into a clear and direct response.\n   - When helpful, reference the policy name, section, or document title in your answer.\n   - Do not quote large blocks verbatim unless necessary; summarize accurately.\n\n3. **Insufficient Information Handling**\n   - If no relevant information is found in the retrieved documents, respond exactly with:\n     \"I cannot find the answer in the available company documents.\"\n\n4. **Clarity and Relevance**\n   - Address only what the user asked.\n   - Avoid speculation, unnecessary explanations, or unrelated policy details.\n\n5. **Professional Tone**\n   - Maintain a neutral, professional, and helpful tone suitable for internal company communication."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        464,
+        432
+      ],
+      "id": "a3dd9a13-35d9-4cf2-be36-1a273ba85ac8",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        672
+      ],
+      "id": "1277b82c-6546-41e9-9b50-87b5942cfef9",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "fbTgi8bW8l3DFLur",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### 🐕 2. Retriever Flow",
+        "height": 892,
+        "width": 1288,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "5bdd5c9f-b45a-4b7d-a7b9-9004765673bc",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        656
+      ],
+      "id": "0524697e-29f1-4207-9097-9e0d12158a7b",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "sRulolxrX47VDUDT",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieve company documents data",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "dp-n8n-rag_collection",
+          "mode": "id"
+        },
+        "includeDocumentMetadata": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        704
+      ],
+      "id": "31a4d0c2-167d-4ce2-bb1a-74afa2203838",
+      "name": "Company Documents Retrieve Tool",
+      "credentials": {
+        "qdrantApi": {
+          "id": "zy0yEW38BuANHOe2",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rag-assistant",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -32,
+        432
+      ],
+      "id": "f2eab807-ae7f-45c6-bf1d-6c216d04fae9",
+      "name": "Webhook",
+      "webhookId": "f6c69983-b29b-45e5-9b5e-4cb3d636a02f"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Investigate attributes to define searched params\nreturn {\n    sessionId: $json.body.job_id,\n    chatInput: $json.body.text,\n    metadata: {\n        userId: $json.body.user_id\n    },\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        432
+      ],
+      "id": "d47ab96a-b849-445e-9a93-3e142f7801c0",
+      "name": "Reformat attributes"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        880,
+        352
+      ],
+      "id": "1a9acd2f-e337-4f74-9e46-2383762647d2",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE n8n_chat_histories\nSET userId = '{{ $('Webhook').item.json.body.user_id }}'\nWHERE session_id = '{{ $('Reformat attributes').item.json.sessionId }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        880,
+        528
+      ],
+      "id": "b9a5cff4-13c0-4b4a-b2a3-c14d21805b04",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "sRulolxrX47VDUDT",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## TODO\n- Replace `job_id` in Reformat attributes node to the attribut e that contains unique chat id. That will allow system to understand how to get chat context"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "c132d14a-2ec3-43ec-8b3a-7b6d7d1c35d4",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Company Documents Retrieve Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Documents Retrieve Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Reformat attributes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat attributes": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9f817ded-69cd-4f9f-a524-de69e86ebcf2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "162a9414843ce227a13a230291ac6eab9d5433e01fba2318409d008c65fb15eb"
+  },
+  "id": "J23IwbDV1FKVKzkz",
+  "tags": []
+}

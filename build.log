@@ -1,0 +1,124 @@
+time="2026-02-21T13:11:32+01:00" level=warning msg="G:\\projects\\rag-sample\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+#1 [internal] load local bake definitions
+#1 reading from stdin 670B done
+#1 DONE 0.0s
+
+#2 [backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 256B done
+#2 DONE 0.0s
+
+#3 [frontend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 385B done
+#3 DONE 0.0s
+
+#4 [frontend internal] load metadata for docker.io/library/node:20-alpine
+#4 DONE 0.6s
+
+#5 [backend internal] load metadata for docker.io/library/python:3.11-slim
+#5 DONE 0.6s
+
+#6 [frontend internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [backend internal] load .dockerignore
+#7 transferring context: 2B done
+#7 DONE 0.0s
+
+#8 [backend internal] load build context
+#8 transferring context: 527B done
+#8 DONE 0.0s
+
+#9 [frontend 1/6] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+#9 resolve docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+#9 ...
+
+#10 [frontend internal] load build context
+#10 ...
+
+#9 [frontend 1/6] FROM docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8
+#9 resolve docker.io/library/node:20-alpine@sha256:09e2b3d9726018aecf269bd35325f46bf75046a643a66d28360ec71132750ec8 0.1s done
+#9 DONE 0.1s
+
+#11 [frontend 2/6] WORKDIR /app
+#11 CACHED
+
+#12 [frontend 3/6] RUN corepack enable && corepack prepare pnpm@latest --activate
+#12 CACHED
+
+#13 [backend 1/5] FROM docker.io/library/python:3.11-slim@sha256:0b23cfb7425d065008b778022a17b1551c82f8b4866ee5a7a200084b7e2eafbf
+#13 resolve docker.io/library/python:3.11-slim@sha256:0b23cfb7425d065008b778022a17b1551c82f8b4866ee5a7a200084b7e2eafbf 0.1s done
+#13 DONE 0.1s
+
+#14 [backend 2/5] WORKDIR /app
+#14 CACHED
+
+#15 [backend 3/5] COPY requirements.txt .
+#15 CACHED
+
+#10 [frontend internal] load build context
+#10 transferring context: 44.92MB 5.1s
+#10 transferring context: 100.99MB 10.3s
+#10 ...
+
+#16 [backend 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#16 5.369 Collecting fastapi>=0.104.0 (from -r requirements.txt (line 1))
+#16 5.540   Downloading fastapi-0.129.0-py3-none-any.whl.metadata (30 kB)
+#16 5.895 Collecting uvicorn>=0.23.2 (from uvicorn[standard]>=0.23.2->-r requirements.txt (line 2))
+#16 5.959   Downloading uvicorn-0.41.0-py3-none-any.whl.metadata (6.7 kB)
+#16 6.053 Collecting python-multipart>=0.0.6 (from -r requirements.txt (line 3))
+#16 6.138   Downloading python_multipart-0.0.22-py3-none-any.whl.metadata (1.8 kB)
+#16 6.337 Collecting qdrant-client>=1.7.0 (from -r requirements.txt (line 4))
+#16 6.401   Downloading qdrant_client-1.17.0-py3-none-any.whl.metadata (11 kB)
+#16 6.986 Collecting pydantic>=2.4.2 (from -r requirements.txt (line 5))
+#16 7.027   Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+#16 7.108      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 1.2 MB/s eta 0:00:00
+#16 7.499 Collecting langchain>=0.2.0 (from -r requirements.txt (line 6))
+#16 7.567   Downloading langchain-1.2.10-py3-none-any.whl.metadata (5.7 kB)
+#16 7.703 Collecting langchain-openai>=0.1.0 (from -r requirements.txt (line 7))
+#16 7.806   Downloading langchain_openai-1.1.10-py3-none-any.whl.metadata (3.1 kB)
+#16 7.998 Collecting langchain-experimental>=0.0.50 (from -r requirements.txt (line 8))
+#16 8.075   Downloading langchain_experimental-0.4.1-py3-none-any.whl.metadata (1.3 kB)
+#16 8.241 Collecting PyPDF2>=3.0.0 (from -r requirements.txt (line 9))
+#16 8.329   Downloading pypdf2-3.0.1-py3-none-any.whl.metadata (6.8 kB)
+#16 8.650 Collecting starlette<1.0.0,>=0.40.0 (from fastapi>=0.104.0->-r requirements.txt (line 1))
+#16 8.716   Downloading starlette-0.52.1-py3-none-any.whl.metadata (6.3 kB)
+#16 8.870 Collecting typing-extensions>=4.8.0 (from fastapi>=0.104.0->-r requirements.txt (line 1))
+#16 8.931   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#16 9.009 Collecting typing-inspection>=0.4.2 (from fastapi>=0.104.0->-r requirements.txt (line 1))
+#16 9.091   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+#16 9.210 Collecting annotated-doc>=0.0.2 (from fastapi>=0.104.0->-r requirements.txt (line 1))
+#16 9.292   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+#16 9.445 Collecting click>=7.0 (from uvicorn>=0.23.2->uvicorn[standard]>=0.23.2->-r requirements.txt (line 2))
+#16 9.503   Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+#16 9.609 Collecting h11>=0.8 (from uvicorn>=0.23.2->uvicorn[standard]>=0.23.2->-r requirements.txt (line 2))
+#16 9.686   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#16 ...
+
+#10 [frontend internal] load build context
+#10 transferring context: 216.41MB 15.3s
+#10 transferring context: 216.64MB 15.3s done
+#10 ERROR: failed to checksum file node_modules/.pnpm/@antfu+ni@25.0.0/node_modules/ansis: archive/tar: unknown file mode ?rwxr-xr-x
+
+#16 [backend 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#16 11.80 Collecting grpcio>=1.41.0 (from qdrant-client>=1.7.0->-r requirements.txt (line 4))
+#16 11.88   Downloading grpcio-1.78.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.8 kB)
+#16 12.06 Collecting httpx>=0.20.0 (from httpx[http2]>=0.20.0->qdrant-client>=1.7.0->-r requirements.txt (line 4))
+#16 12.16   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#16 13.17 Collecting numpy>=1.21 (from qdrant-client>=1.7.0->-r requirements.txt (line 4))
+#16 13.26   Downloading numpy-2.4.2-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#16 13.38 Collecting portalocker<4.0,>=2.7.0 (from qdrant-client>=1.7.0->-r requirements.txt (line 4))
+#16 13.47   Downloading portalocker-3.2.0-py3-none-any.whl.metadata (8.7 kB)
+#16 14.40 Collecting protobuf>=3.20.0 (from qdrant-client>=1.7.0->-r requirements.txt (line 4))
+#16 14.45   Downloading protobuf-6.33.5-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+#16 14.70 Collecting urllib3<3,>=1.26.14 (from qdrant-client>=1.7.0->-r requirements.txt (line 4))
+#16 14.78   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+#16 14.91 Collecting annotated-types>=0.6.0 (from pydantic>=2.4.2->-r requirements.txt (line 5))
+#16 14.99   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#16 CANCELED
+------
+ > [frontend internal] load build context:
+------
+target frontend: failed to solve: failed to checksum file node_modules/.pnpm/@antfu+ni@25.0.0/node_modules/ansis: archive/tar: unknown file mode ?rwxr-xr-x
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/71ulu8irnehm3jvmqfqc2rhxa

@@ -1,0 +1,25 @@
+# Development
+node_modules/
+dist/
+build/
+.env
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Qdrant local storage
+qdrant_storage/
