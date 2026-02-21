@@ -23,3 +23,6 @@ Thumbs.db
 
 # Qdrant local storage
 qdrant_storage/
+
+# Prototypes
+n8n-concept/
